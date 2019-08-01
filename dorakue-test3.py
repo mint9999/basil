@@ -18,3 +18,4 @@ while HP > 0:
     count += 1
 print("fooを倒した")
 print("hogeは" + str(count) + "回の攻撃でfooを倒した")
+amazonaws
