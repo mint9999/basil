@@ -19,5 +19,5 @@ while HP > 0:
 print("fooを倒した")
 print("hogeは" + str(count) + "回の攻撃でfooを倒した")
 
-foo = 'hogehoge\n hahifuhe\t'
+foo = 'hogehoge\n hahifasdfauhe\t'
 print(foo)
