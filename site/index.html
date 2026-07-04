@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>わたしの学校えらびノート 🎒</title>
+<style>
+  :root{ color-scheme: light; }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{
+    background:
+      radial-gradient(circle at 8% 0%, #fff6e0 0%, transparent 42%),
+      radial-gradient(circle at 100% 10%, #e6f7ff 0%, transparent 40%),
+      #faf6fb;
+    color:#332f4d;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic","Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.85;
+    font-size:16px;
+    padding:0 0 4rem;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+  a{color:#e0507c;}
+
+  /* ---------- masthead ---------- */
+  .masthead{padding:2.8rem 0 1.6rem;text-align:center;}
+  .masthead .eyebrow{
+    display:inline-block;font-size:13px;letter-spacing:.12em;color:#9f9ac2;
+    background:#fff;border:1px solid #ece5f7;border-radius:999px;padding:.35rem 1rem;margin-bottom:1rem;
+  }
+  h1{
+    font-size:34px;font-weight:800;margin:0 0 .7rem;text-wrap:balance;
+    background:linear-gradient(100deg,#ff5d8f,#ff9466 55%,#ffc93c);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:1.3;
+  }
+  .masthead p.lead{color:#6b6690;margin:0 auto 1.2rem;max-width:46ch;font-size:16px;}
+  .stripe{
+    display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;font-size:13px;color:#9793b8;margin-bottom:.5rem;
+  }
+  .stripe span{background:#fff;border:1px solid #ece5f7;border-radius:999px;padding:.3rem .8rem;}
+
+  /* ---------- info boxes ---------- */
+  .notebox{
+    background:#fff;
+    border:2px dashed #f0d9ea;
+    border-radius:18px;
+    padding:1.3rem 1.5rem;
+    margin:1.6rem 0;
+  }
+  .notebox h3{margin:0 0 .7rem;font-size:16px;color:#332f4d;display:flex;align-items:center;gap:.4rem;}
+  .notebox ul{margin:0;padding-left:1.2em;}
+  .notebox li{margin:.4rem 0;color:#514c72;font-size:14.8px;}
+  .legend-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;font-size:13.5px;color:#6b6690;}
+  .legend-row span{display:inline-flex;align-items:center;gap:.4rem;}
+  .legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none;}
+
+  /* ---------- quick nav ---------- */
+  .quicknav{margin:1.8rem 0 2.2rem;}
+  .quicknav h3{font-size:13.5px;color:#9793b8;letter-spacing:.05em;margin:0 0 .8rem;font-weight:700;}
+  .chiprow{display:flex;flex-wrap:wrap;gap:.55rem;}
+  .navchip{
+    display:inline-flex;align-items:center;gap:.45rem;
+    padding:.4rem .8rem .4rem .4rem;border:none;border-radius:999px;
+    background:color-mix(in srgb, var(--t) 16%, white);
+    color:#332f4d;text-decoration:none;font-size:13.5px;font-weight:600;
+    box-shadow:0 1px 0 rgba(50,40,70,.06);
+  }
+  .navchip .crest-mini{
+    width:24px;height:24px;border-radius:50%;background:var(--t);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;
+  }
+
+  /* ---------- summary table ---------- */
+  .table-scroll{overflow-x:auto;border-radius:16px;margin:0 0 2.6rem;border:1px solid #ece5f7;}
+  table.summary{border-collapse:collapse;width:100%;font-size:13.5px;background:#fff;}
+  table.summary th, table.summary td{padding:.65rem .75rem;border-bottom:1px solid #f4eef9;text-align:left;white-space:nowrap;}
+  table.summary thead th{background:#fdeef2;color:#c23768;font-weight:700;font-size:12.5px;position:sticky;top:0;}
+  table.summary tbody tr:last-child td{border-bottom:none;}
+  table.summary tbody tr:hover{background:#fbf6ff;}
+  table.summary td.num{font-variant-numeric:tabular-nums;text-align:right;}
+  .mini-crest{
+    width:22px;height:22px;border-radius:50%;color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-right:.45rem;
+  }
+
+  .section-label{
+    font-size:13px;letter-spacing:.1em;color:#c48ab0;margin:2.8rem 0 .9rem;font-weight:700;text-align:center;
+  }
+
+  /* ---------- card ---------- */
+  .card{
+    background:#fff;
+    border-radius:22px;
+    padding:0 0 1.6rem;
+    margin-bottom:1.7rem;
+    box-shadow:0 2px 4px rgba(80,50,90,.04), 0 14px 30px rgba(80,50,90,.08);
+    overflow:hidden;
+    scroll-margin-top:1rem;
+  }
+  .card-head{
+    display:flex;gap:1rem;align-items:center;
+    padding:1.4rem 1.6rem;
+    background:linear-gradient(120deg, color-mix(in srgb, var(--t) 20%, white), color-mix(in srgb, var(--t) 8%, white));
+  }
+  .crest{
+    flex:none;width:52px;height:52px;border-radius:50%;
+    background:var(--t);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:23px;font-weight:800;box-shadow:0 3px 8px color-mix(in srgb, var(--t) 50%, transparent);
+  }
+  .card-titles h2{margin:0 0 .3rem;font-size:20px;font-weight:800;text-wrap:balance;color:#332f4d;}
+  .card-titles .meta{margin:0 0 .55rem;color:#7a7495;font-size:13px;}
+  .badges{display:flex;flex-wrap:wrap;gap:.4rem;}
+  .badge{
+    font-size:12px;padding:.24rem .65rem;border-radius:999px;background:#fff;color:color-mix(in srgb, var(--t) 75%, black 10%);
+    font-weight:700;border:1px solid color-mix(in srgb, var(--t) 35%, white);
+  }
+
+  .card-body{padding:1.2rem 1.6rem 0;}
+
+  .chiprow2{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.1rem;}
+  .stat-chip{
+    display:flex;align-items:center;gap:.5rem;background:#faf8fc;border:1px solid #f1ecf7;border-radius:14px;
+    padding:.55rem .8rem;font-size:13px;flex:1 1 220px;
+  }
+  .stat-chip .ic{font-size:17px;flex:none;}
+  .stat-chip .k{display:block;color:#9793b8;font-size:11px;margin-bottom:.1rem;}
+  .stat-chip .v{display:block;color:#332f4d;line-height:1.55;}
+
+  .meters{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
+  .meter-block .head{display:flex;justify-content:space-between;font-size:12.5px;color:#7a7495;margin-bottom:.35rem;}
+  .meter-block .head b{color:#332f4d;}
+  .meter{height:9px;border-radius:99px;background:#f0ecf7;overflow:hidden;}
+  .meter .fill{display:block;height:100%;border-radius:99px;background:var(--t);width:var(--pct);}
+
+  .callout{
+    border-radius:16px;padding:1.05rem 1.2rem;margin-bottom:0;
+    background:color-mix(in srgb, var(--t) 9%, white);
+    border:1px solid color-mix(in srgb, var(--t) 22%, white);
+  }
+  .callout-label{margin:0 0 .55rem;font-size:14.5px;font-weight:800;color:color-mix(in srgb, var(--t) 80%, black 15%);display:flex;align-items:center;gap:.4rem;}
+  .callout ul{margin:0;padding-left:1.2em;}
+  .callout li{margin:.4rem 0;font-size:14px;color:#403b5c;}
+  .callout li.tidbit{list-style:none;margin-top:.65rem;padding-top:.6rem;border-top:1px dashed color-mix(in srgb, var(--t) 30%, white);color:#5c5678;margin-left:-1.2em;}
+
+  .card-foot{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap;padding:0 1.6rem;}
+  .chip-link{
+    font-size:13px;padding:.5rem .95rem;border-radius:999px;border:none;
+    background:var(--t);color:#fff;text-decoration:none;font-weight:700;
+    box-shadow:0 3px 8px color-mix(in srgb, var(--t) 45%, transparent);
+  }
+  .chip-link.secondary{background:#fff;color:color-mix(in srgb, var(--t) 75%, black 10%);border:1px solid color-mix(in srgb, var(--t) 35%, white);box-shadow:none;}
+
+  footer.endnote{
+    margin-top:2.6rem;padding:1.4rem 1.6rem;border-radius:18px;background:#fff;border:2px dashed #f0d9ea;
+    color:#6b6690;font-size:13.6px;text-align:center;
+  }
+
+  @media (max-width:640px){
+    .meters{grid-template-columns:1fr;}
+    h1{font-size:26px;}
+    .card-head{flex-direction:row;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    .quicknav, .table-scroll{display:none;}
+    .card{break-inside:avoid;break-after:page;box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="wrap">
+
+  <div class="masthead">
+    <span class="eyebrow">中学受験 学校くらべノート</span>
+    <h1>わたしの学校えらび 🎒</h1>
+    <p class="lead">気になる14校のことを、ひとつずつカードにまとめてみたよ。制服も、部活も、通学時間も、学校によってぜんぜん違うから、比べながら見てみてね。</p>
+    <div class="stripe"><span>🏫 14校</span><span>📅 2026年7月</span></div>
+  </div>
+
+  <div class="notebox">
+    <h3>📖 この資料の見かた</h3>
+    <ul>
+      <li>各校それぞれ、テーマカラー(まる印)がついているよ。ジャンプリンクや表の色でどの学校か分かりやすくしてみた。</li>
+      <li>カードの中の色つきボックスは「✨ ここが素敵ポイント」。学校のいいところや、知っておくと安心なことをまとめたよ。</li>
+      <li>点線で囲まれた「📌 ちなみに」は、調べてみたら分かった最新情報や、表と少し違っていたことのメモだよ。</li>
+      <li>学校の写真そのものは載せられなかったから、カード下の「公式サイト」「制服・校舎の写真」ボタンから見てみてね。</li>
+    </ul>
+  </div>
+
+  <div class="notebox">
+    <h3>🔍 学校えらびで見てみるといいポイント</h3>
+    <ul>
+      <li><b>クラスの人数</b> — 少ないほど、先生に気づいてもらいやすいことが多いよ。</li>
+      <li><b>勉強のサポート</b> — 自習室に先生や先輩がいてくれるか、補習が「やらされる」か「やりたい人だけ」かもチェック。</li>
+      <li><b>相談できる先生</b> — スクールカウンセラーの先生が常にいてくれる学校もあるよ。</li>
+      <li><b>校則の自由さ</b> — きっちりしてる学校もあれば、わりと自由な学校もある。自分に合うのはどっちかな?</li>
+      <li><b>通学時間</b> — 近いほど、帰ってからも元気が残ってるはず。</li>
+      <li><b>制服・お昼ごはんの自由さ</b> — コーディネートが選べたり、お弁当じゃなくてカフェテリアがあったり。</li>
+    </ul>
+  </div>
+
+  <div class="quicknav">
+    <h3>14校ジャンプリンク</h3>
+    <div class="chiprow">
+      <a class="navchip" style="--t:#e0507c" href="#koran"><span class="crest-mini">香</span>香蘭女学校</a>
+      <a class="navchip" style="--t:#2f8fd1" href="#showa"><span class="crest-mini">昭</span>昭和女子大昭和</a>
+      <a class="navchip" style="--t:#239873" href="#kyoritsu"><span class="crest-mini">共</span>共立女子</a>
+      <a class="navchip" style="--t:#c98a12" href="#fureido"><span class="crest-mini">普</span>普連土学園</a>
+      <a class="navchip" style="--t:#7a5cd1" href="#denenchofu"><span class="crest-mini">田</span>田園調布学園</a>
+      <a class="navchip" style="--t:#e0684a" href="#jissen"><span class="crest-mini">実</span>実践女子学園</a>
+      <a class="navchip" style="--t:#3d8f8a" href="#kanagawa"><span class="crest-mini">神</span>神奈川学園</a>
+      <a class="navchip" style="--t:#e0507c" href="#miwada"><span class="crest-mini">三</span>三輪田学園</a>
+      <a class="navchip" style="--t:#2f8fd1" href="#shinagawajoshi"><span class="crest-mini">品</span>品川女子学院</a>
+      <a class="navchip" style="--t:#239873" href="#seiryo"><span class="crest-mini">青</span>青稜</a>
+      <a class="navchip" style="--t:#c98a12" href="#tamamegro"><span class="crest-mini">多</span>多摩大学目黒</a>
+      <a class="navchip" style="--t:#7a5cd1" href="#junten"><span class="crest-mini">北</span>北里大学附属順天</a>
+      <a class="navchip" style="--t:#e0684a" href="#bunkyo"><span class="crest-mini">文</span>文教大学附属</a>
+      <a class="navchip" style="--t:#3d8f8a" href="#shibakokusai"><span class="crest-mini">芝</span>芝国際</a>
+    </div>
+  </div>
+
+  <p class="section-label">☆ 全体をざっくり比べる ☆</p>
+  <div class="table-scroll">
+    <table class="summary">
+      <thead>
+        <tr><th>学校名</th><th>男女</th><th>最寄駅・通学</th><th>1学年</th><th>附属大学</th><th>自由さ</th><th>学食</th><th>見どころ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="mini-crest" style="background:#e0507c">香</span>香蘭女学校</td><td>女子校</td><td>旗の台 5分・17分</td><td class="num">約160名</td><td>立教大(系属)</td><td>ふつう</td><td>弁当のみ</td><td>相談室に先生が常駐</td></tr>
+        <tr><td><span class="mini-crest" style="background:#2f8fd1">昭</span>昭和女子大昭和</td><td>女子校</td><td>三軒茶屋 7分・48分</td><td class="num">約200名</td><td>昭和女子大</td><td>ややきっちり</td><td>カフェテリア可</td><td>1人1台Chromebook</td></tr>
+        <tr><td><span class="mini-crest" style="background:#239873">共</span>共立女子</td><td>女子校</td><td>神保町 3分・51分</td><td class="num">約320名</td><td>共立女子大</td><td>ふつう</td><td>あり(中学制限)</td><td>今回いちばん大きい学校</td></tr>
+        <tr><td><span class="mini-crest" style="background:#c98a12">普</span>普連土学園</td><td>女子校</td><td>田町/三田 8分・38分</td><td class="num">約130名</td><td>なし</td><td>わりと自由</td><td>弁当配達あり</td><td>今回いちばん少人数</td></tr>
+        <tr><td><span class="mini-crest" style="background:#7a5cd1">田</span>田園調布学園</td><td>女子校</td><td>雪が谷大塚 10分・22分</td><td class="num">約200名</td><td>系列大学あり※</td><td>ややきっちり</td><td>あり</td><td>心理の先生が毎日常駐</td></tr>
+        <tr><td><span class="mini-crest" style="background:#e0684a">実</span>実践女子学園</td><td>女子校</td><td>渋谷 10分・37分</td><td class="num">約240名</td><td>実践女子大</td><td>ふつう</td><td>あり</td><td>1人1台タブレット</td></tr>
+        <tr><td><span class="mini-crest" style="background:#3d8f8a">神</span>神奈川学園</td><td>女子校</td><td>横浜 10分・55分</td><td class="num">約200名</td><td>なし</td><td>わりと自由</td><td>あり</td><td>担任2人体制+毎日ダイアリー</td></tr>
+        <tr><td><span class="mini-crest" style="background:#e0507c">三</span>三輪田学園</td><td>女子校</td><td>市ヶ谷 7分・53分</td><td class="num">約170名</td><td>なし</td><td>ふつう</td><td>あり</td><td>自習室に学習コーチ常駐</td></tr>
+        <tr><td><span class="mini-crest" style="background:#2f8fd1">品</span>品川女子学院</td><td>女子校</td><td>北品川 2分・36分</td><td class="num">約200名</td><td>なし</td><td>わりと自由</td><td>フード充実</td><td>iPad常時利用OK</td></tr>
+        <tr><td><span class="mini-crest" style="background:#239873">青</span>青稜(資料表記:青陵)</td><td>共学※</td><td>下神明 1分・24分</td><td class="num">約140名</td><td>なし</td><td>ややきっちり</td><td>あり</td><td>有料の個別指導も選べる</td></tr>
+        <tr><td><span class="mini-crest" style="background:#c98a12">多</span>多摩大学目黒</td><td>共学</td><td>不動前 12分・36分</td><td class="num">約130名</td><td>多摩大学</td><td>ややきっちり</td><td>あり</td><td>面倒見主義・iPad全員</td></tr>
+        <tr><td><span class="mini-crest" style="background:#7a5cd1">北</span>北里大学附属順天</td><td>共学</td><td>王子 3分・51分</td><td class="num">約120名</td><td>北里大(2026〜)</td><td>ふつう</td><td>購買のみ</td><td>居場所になる自習スペース</td></tr>
+        <tr><td><span class="mini-crest" style="background:#e0684a">文</span>文教大学附属</td><td>共学</td><td>旗の台 4分・16分</td><td class="num">約130名</td><td>文教大学</td><td>ふつう</td><td>あり</td><td>全教室に電子黒板+タブレット</td></tr>
+        <tr><td><span class="mini-crest" style="background:#3d8f8a">芝</span>芝国際</td><td>共学</td><td>三田 2分・33分</td><td class="num">約140名</td><td>なし</td><td>わりと自由</td><td>あり</td><td>校則がたった5つ</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12.5px;color:#9793b8;margin-top:-1.8rem;margin-bottom:2rem;text-align:center;">※青稜は1995年から共学、田園調布学園は系列の大学(田園調布学園大学)があるよ。くわしくは各カードをチェック!</p>
+
+  <p class="section-label">☆ 学校ひとつずつ、くわしくカード ☆</p>
+
+  <!-- 1. 香蘭女学校 -->
+  <section class="card" id="koran" style="--t:#e0507c">
+    <div class="card-head">
+      <div class="crest">香</div>
+      <div class="card-titles">
+        <h2>香蘭女学校中等科・高等科</h2>
+        <p class="meta">品川区旗の台 ・ 旗の台駅 徒歩5分 ・ 通学17分 ・ 登校8:10</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">立教大学 系属校</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">立教大学の系属校。2025年度から推薦枠がぐっと広がったみたい</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">国内中心。カナダ・英国・韓国・米国との交流や留学もある(行きたい人だけ)</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">自然科学部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">学食はなし(お弁当がメイン)</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約160名</b></div><div class="meter"><span class="fill" style="--pct:50%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>相談室にはカウンセラーの先生が2人と、話を聞いてくれるソーシャルワーカーの先生も1人いるよ。困ったときに相談できる場所があるのは心強いね。</li>
+          <li>髪型や持ち物のチェックが厳しくなくて、のんびり上品な校風なんだって。</li>
+          <li>学校まで17分と近いから、通学がラクなのもポイント。</li>
+          <li>立教大学への推薦枠が増えたみたいだから、受験に追われずに好きなことに時間を使えるようになるかも。</li>
+          <li class="tidbit">📌 ちなみに:立教大学の推薦枠は2025年度からかなり広がったという情報があるよ。くわしい条件は学校説明会で聞いてみてね。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.koran.ed.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.koran.ed.jp/life/uniform/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 2. 昭和女子大昭和 -->
+  <section class="card" id="showa" style="--t:#2f8fd1">
+    <div class="card-head">
+      <div class="crest">昭</div>
+      <div class="card-titles">
+        <h2>昭和女子大学附属昭和中学校・高等学校</h2>
+        <p class="meta">世田谷区 ・ 三軒茶屋駅 徒歩7分 ・ 通学48分 ・ 登校8:00</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">完全中高一貫</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">昭和女子大学。推薦を保留したまま他の大学も受験できるよ</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">中2は全員参加で「昭和ボストン」に12日間!</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">科学部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリア利用OK</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約200名</b></div><div class="meter"><span class="fill" style="--pct:62%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ややきっちり</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>入学すると1人1台Chromebookがもらえて、クラウドに保存されるから、うっかりなくしても安心。</li>
+          <li>中2になると全員でアメリカのボストンに12日間の研修旅行!ドキドキするけど貴重な経験になりそう。</li>
+          <li>身だしなみのルールは少しきちんとしている方みたい。</li>
+          <li>大学への推薦をキープしたまま他の大学を受験できる自由さがある。</li>
+          <li class="tidbit">📌 ちなみに:1学年の人数は表では200名だけど、学校の発表だと約230名・6クラスという情報も見つかったよ。登校時間も表では8:25だったけど、学校公式ページの「1日の流れ」を見ると8:00に点呼・朝礼があるみたいだよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://jhs.swu.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://jhs.swu.ac.jp/schoollife/uniform.html" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 3. 共立女子 -->
+  <section class="card" id="kyoritsu" style="--t:#239873">
+    <div class="card-head">
+      <div class="crest">共</div>
+      <div class="card-titles">
+        <h2>共立女子中学高等学校</h2>
+        <p class="meta">千代田区 ・ 神保町駅 徒歩3分 ・ 通学51分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">共立女子大学 併設</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">共立女子大学があるけど、実際に進む人は10〜15%くらいで、多くは他の大学を受けるみたい</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">国内中心(行きたい人だけの海外研修あり)</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">科学研究部(週2日)</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">食堂あり(中学生は少し利用に制限あり)</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約320名</b></div><div class="meter"><span class="fill" style="--pct:100%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>都心にある高層の校舎はとってもきれい。オフィス街の真ん中にあるよ。</li>
+          <li>2週間に1回、礼儀作法(小笠原流)の授業があって、少し伝統的な校風。</li>
+          <li>1学年320人は今回の14校の中でいちばん大きい学校。文化祭などで実際の雰囲気を見てみるのがおすすめ。</li>
+          <li class="tidbit">📌 ちなみに:口コミだと、寄り道禁止や髪型のルールなど、思ったよりきちんとしているという声もあるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.kyoritsu-wu.ac.jp/chukou/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.kyoritsu-wu.ac.jp/chukou/school/life/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 4. 普連土学園 -->
+  <section class="card" id="fureido" style="--t:#c98a12">
+    <div class="card-head">
+      <div class="crest">普</div>
+      <div class="card-titles">
+        <h2>普連土学園中学校・高等学校</h2>
+        <p class="meta">港区 ・ 田町駅/三田駅 徒歩8分 ・ 通学38分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">完全中高一貫</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし(進学に力を入れている学校)</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">英国12日間・豪州留学など、行きたい人向けのプログラムが充実</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理科部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">ネット注文でお弁当を配達してもらえる</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約130名</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>わりと自由</b></div><div class="meter"><span class="fill" style="--pct:80%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>1学年130人くらいで、14校の中でいちばん少人数!先生に気づいてもらいやすい、アットホームな雰囲気。</li>
+          <li>カウンセラーの先生が毎日相談室にいてくれるよ。</li>
+          <li>「小さな悩みごとも担任の先生がていねいに聞いてくれる」という校風なんだって。</li>
+          <li>パソコンで自分のペースで復習できる教材があって、苦手なところをじっくりやり直せる。PC室は昼休みや放課後も自由に使えるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.friends.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.friends.ac.jp/schoollife/uniform.html" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 5. 田園調布学園 -->
+  <section class="card" id="denenchofu" style="--t:#7a5cd1">
+    <div class="card-head">
+      <div class="crest">田</div>
+      <div class="card-titles">
+        <h2>田園調布学園中等部・高等部</h2>
+        <p class="meta">世田谷区 ・ 雪が谷大塚駅 徒歩10分 ・ 通学22分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">系列大学あり</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">系列の「田園調布学園大学」はあるけど、ほとんどの人は他の大学に進学するみたい</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">高2は全員でニュージーランドへ</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理化部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">お弁当の注文サービスあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約200名</b></div><div class="meter"><span class="fill" style="--pct:62%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ややきっちり</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>公認心理師・臨床心理士の資格を持つカウンセラーの先生が2人、毎日相談にのってくれるよ。</li>
+          <li>携帯電話は緊急連絡用に持ち込みOK、担任の先生に相談すればスニーカー通学もOKになるみたい。</li>
+          <li>週1回「探究」の授業が中1から高2までずっとあって、自分の興味のあるテーマをじっくり調べられる。</li>
+          <li>宿題は少し多めという声もあるから、気になったら説明会で聞いてみてもいいかも。</li>
+          <li class="tidbit">📌 ちなみに:「附属大学なし」と思われがちだけど、同じ学校グループの「田園調布学園大学」が実はあるよ(進む人は少なめみたい)。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.chofu.ed.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.chofu.ed.jp/about/uniform/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 6. 実践女子学園 -->
+  <section class="card" id="jissen" style="--t:#e0684a">
+    <div class="card-head">
+      <div class="crest">実</div>
+      <div class="card-titles">
+        <h2>実践女子学園中学校高等学校</h2>
+        <p class="meta">渋谷区 ・ 渋谷駅 徒歩10分 ・ 通学37分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">実践女子大学 併設</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">実践女子大学。他の大学への推薦枠も多いよ</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">豪州・NZ・エストニア・セブ島など、行きたい人向けのプログラムがいろいろ</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理科部(化学・生物・物理の実験室あり)</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリアあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約240名</b></div><div class="meter"><span class="fill" style="--pct:75%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>2020年から1人1台タブレットで、提出物もオンラインで管理できるから忘れ物しにくい。</li>
+          <li>「スタディサプリ」を使って、自分のペースに合わせて苦手なところを復習できる。</li>
+          <li>カウンセラーの先生・担任・学年主任・保健室の先生など、みんなでサポートしてくれる体制があるんだって。</li>
+          <li class="tidbit">📌 ちなみに:今の校舎は少し古めだけど、2028年4月に新しい校舎ができる予定だよ。それまでは今の校舎での学校生活になるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://hs.jissen.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://hs.jissen.ac.jp/life/uniform/index.html" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 7. 神奈川学園 -->
+  <section class="card" id="kanagawa" style="--t:#3d8f8a">
+    <div class="card-head">
+      <div class="crest">神</div>
+      <div class="card-titles">
+        <h2>神奈川学園中学・高等学校</h2>
+        <p class="meta">横浜市神奈川区 ・ 横浜駅 徒歩10分 ・ 通学55分 ・ 登校8:20</p>
+        <div class="badges"><span class="badge">女子校</span><span class="badge">宗教色のない女子校</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし(神奈川大学附属とは別の学校だよ)</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">中3は全員でオーストラリアへホームステイ研修</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">科学部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリアあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約200名</b></div><div class="meter"><span class="fill" style="--pct:62%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>わりと自由</b></div><div class="meter"><span class="fill" style="--pct:80%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>中学は担任の先生が2人体制!毎日「ダイアリー」というノートで先生とやりとりできるから、ちょっとしたことも伝えやすい。</li>
+          <li>プロジェクトアドベンチャーという体験型のプログラムがあって、座って勉強するだけじゃない学び方もあるよ。</li>
+          <li>自習室が夜20時まで使えるから、集中したいときに便利。</li>
+          <li class="tidbit">📌 ちなみに:中学のうちは校則が少しきちんとしていて、高校になると自由になっていくという声もあるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.kanagawa-kgs.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.kanagawa-kgs.ac.jp/schoollife/uniform/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 8. 三輪田学園 -->
+  <section class="card" id="miwada" style="--t:#e0507c">
+    <div class="card-head">
+      <div class="crest">三</div>
+      <div class="card-titles">
+        <h2>三輪田学園中学校・高等学校</h2>
+        <p class="meta">千代田区 ・ 市ヶ谷駅 徒歩7分 ・ 通学53分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">女子校</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし(進学に力を入れている学校)</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">カナダ・英国・シンガポール研修は行きたい人向け</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">科学部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリアあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約170名</b></div><div class="meter"><span class="fill" style="--pct:53%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>自習室に大学生のお兄さん・お姉さんが常駐していて、夜19時まで質問できる。長期休みは「補習優先期間」があって計画的に勉強できる。</li>
+          <li>「失敗してもいいICT教育」という考え方があって、うまくいかなくても大丈夫っていう雰囲気があるみたい。</li>
+          <li>制服は2000通り以上からコーディネートできる!自分の好きな組み合わせを選べるのは楽しそう。</li>
+          <li class="tidbit">📌 ちなみに:スマホは基本禁止で、iPadも少し使い方に制限があるという情報があるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.miwada.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.miwada.ac.jp/schoollife/uniform.html" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 9. 品川女子学院 -->
+  <section class="card" id="shinagawajoshi" style="--t:#2f8fd1">
+    <div class="card-head">
+      <div class="crest">品</div>
+      <div class="card-titles">
+        <h2>品川女子学院中等部・高等部</h2>
+        <p class="meta">品川区 ・ 北品川駅 徒歩2分 ・ 通学36分 ・ 登校8:25</p>
+        <div class="badges"><span class="badge">女子校</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし。「28プロジェクト」という将来を考える授業が有名</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">中等部は全員参加のニュージーランド研修(8日間か3週間を選べる)</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理科部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">フード自販機やパン屋さんも充実</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約200名</b></div><div class="meter"><span class="fill" style="--pct:62%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>わりと自由</b></div><div class="meter"><span class="fill" style="--pct:80%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>携帯は禁止だけどiPadは登下校中も使っていいんだって、意外と自由。</li>
+          <li>「28プロジェクト」という将来を考えるための授業がずっと続いていて、自分の進みたい道を考えるヒントがたくさんもらえそう。</li>
+          <li>2025年に新しい校舎(A棟)ができたばかりでピカピカ。</li>
+          <li class="tidbit">📌 ちなみに:1学年の人数は表では200名だけど、実際は約230名・6クラスという情報もあったよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.shinagawajoshigakuin.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.shinagawajoshigakuin.jp/schoollife/uniform/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 10. 青稜 -->
+  <section class="card" id="seiryo" style="--t:#239873">
+    <div class="card-head">
+      <div class="crest">青</div>
+      <div class="card-titles">
+        <h2>青稜(せいりょう)中学校・高等学校</h2>
+        <p class="meta">品川区二葉 ・ 下神明駅 徒歩1分 ・ 通学24分 ・ 登校8:20</p>
+        <div class="badges"><span class="badge">共学</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし(進学に力を入れている学校)</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">国内中心(行きたい人向けの海外研修あり)</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">自然科学部(80〜100種類の生き物を生徒たちで飼育!)</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリアあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約140名</b></div><div class="meter"><span class="fill" style="--pct:43%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ややきっちり</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>チューターの先生が常駐する自習室「Sラボ」が夜20:30まで使えて、有料だけどマンツーマンで教えてもらうこともできるよ。</li>
+          <li>自然科学部では生き物を80〜100種類も生徒が自分たちで飼育しているんだって。生き物好きにはたまらないかも。</li>
+          <li>制服は2022年にデザイナーの藤原ヒロシさんが手がけてリニューアルしたばかり。</li>
+          <li class="tidbit">📌 ちなみに:元の表では「青陵」となっていたけど、正しい名前は「青稜(せいりょう)」だよ。1995年から男女共学になっていて、女子だけの学校ではないんだ。1学年の人数も表より少し多くて180人くらいという情報もあるよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.seiryo-js.ed.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+    </div>
+  </section>
+
+  <!-- 11. 多摩大学目黒 -->
+  <section class="card" id="tamamegro" style="--t:#c98a12">
+    <div class="card-head">
+      <div class="crest">多</div>
+      <div class="card-titles">
+        <h2>多摩大学目黒中学校・高等学校</h2>
+        <p class="meta">目黒区 ・ 不動前駅 徒歩12分 ・ 通学36分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">共学</span><span class="badge">多摩大学 提携</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">多摩大学と提携。実際はGMARCHなど他の大学を受ける人が多いみたい</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">中3は全員でオーストラリアへホームステイ研修</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">科学部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">カフェテリアあり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約130名</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ややきっちり</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>1人1台iPadと電子黒板があって「面倒見主義」を掲げるくらい、勉強のサポートが手厚い学校。</li>
+          <li>校則の評判はよくて、女子は髪型も自由だという声もあるよ。</li>
+          <li>中3では全員でオーストラリアにホームステイ研修に行くよ。</li>
+          <li class="tidbit">📌 ちなみに:この学校は共学だよ(男子も女子もいるよ)。目黒の本校舎は少しこぢんまりしているという声もあるから、見学のときにチェックしてみてね。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.tmh.ac.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.tmh.ac.jp/school-guide05/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 12. 北里大学附属順天 -->
+  <section class="card" id="junten" style="--t:#7a5cd1">
+    <div class="card-head">
+      <div class="crest">北</div>
+      <div class="card-titles">
+        <h2>北里大学附属順天中学校・高等学校</h2>
+        <p class="meta">北区 ・ 王子駅 徒歩3分 ・ 通学51分 ・ 登校8:15</p>
+        <div class="badges"><span class="badge">共学</span><span class="badge">2026年4月に名前が変わるよ</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">2026年から北里大学(医療系など9学部18学科)への進学制度ができるみたい</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">高校でシドニー・NZ・カナダなどから選べるよ</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理科部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">学食はないけど、パン・お弁当の販売あり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約120名</b></div><div class="meter"><span class="fill" style="--pct:37%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>放課後に使える食事・おしゃべりスペース(約80人分)があって、居場所として使えそう。</li>
+          <li>校内Wi-Fiが使えて、パソコンの購入・貸し出し制度もあるよ。</li>
+          <li>王子キャンパスの校舎はきれいだと評判で、体育やクラブ用に新田キャンパスもあるよ。</li>
+          <li class="tidbit">📌 ちなみに:2026年4月から「北里大学附属順天」という名前になって、北里大学の医療系の学部にも進学しやすくなる新しい制度ができるみたい。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.junten.ed.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.junten.ed.jp/campus-life/uniform/" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 13. 文教大学附属 -->
+  <section class="card" id="bunkyo" style="--t:#e0684a">
+    <div class="card-head">
+      <div class="crest">文</div>
+      <div class="card-titles">
+        <h2>文教大学付属中学校・高等学校</h2>
+        <p class="meta">品川区旗の台 ・ 旗の台駅 徒歩4分 ・ 通学16分 ・ 登校8:20</p>
+        <div class="badges"><span class="badge">共学</span><span class="badge">文教大学 提携</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">文教大学(7学部)へ学年の約2割が進学。推薦をキープしたまま他大学も受験できるよ</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">高2で海外研修・旅行があるよ</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">理科部</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">ラウンジ「So-La」でカフェテリア利用可</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約130名</b></div><div class="meter"><span class="fill" style="--pct:40%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>ふつう</b></div><div class="meter"><span class="fill" style="--pct:60%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>放課後学習支援「文教ステーション」に専任の先生が常駐していて、夜19時半まで使えるよ。</li>
+          <li>全部の教室に電子黒板と1人1台タブレットがあるから、授業がわかりやすそう。</li>
+          <li>通学時間はたったの16分!今回の14校の中でもかなり近い方だよ。</li>
+          <li class="tidbit">📌 ちなみに:1学年の人数は表では130名だけど、実際は男女あわせて184人・5クラスくらいという情報もあったよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.bunkyo.ac.jp/jsh/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.bunkyo.ac.jp/jsh/school-life/uniform.html" target="_blank" rel="noopener">制服・校舎の写真 ↗</a>
+    </div>
+  </section>
+
+  <!-- 14. 芝国際 -->
+  <section class="card" id="shibakokusai" style="--t:#3d8f8a">
+    <div class="card-head">
+      <div class="crest">芝</div>
+      <div class="card-titles">
+        <h2>芝国際中学校・高等学校</h2>
+        <p class="meta">港区 ・ 三田駅 徒歩2分 ・ 通学33分 ・ 登校8:20</p>
+        <div class="badges"><span class="badge">共学</span><span class="badge">2023年にできた新しい学校</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chiprow2">
+        <div class="stat-chip"><span class="ic">🎓</span><span><span class="k">進学</span><span class="v">附属大学なし。外国人の先生が担任のコースもあるよ</span></span></div>
+        <div class="stat-chip"><span class="ic">✈️</span><span><span class="k">海外研修</span><span class="v">アメリカ3週間ホームステイ・セブ島・豪州留学など、コースごとに選べる</span></span></div>
+        <div class="stat-chip"><span class="ic">🔬</span><span><span class="k">理科系の部活</span><span class="v">サイエンス系の部活</span></span></div>
+        <div class="stat-chip"><span class="ic">🍱</span><span><span class="k">お昼ごはん</span><span class="v">最新のカフェテリア・購買あり</span></span></div>
+      </div>
+      <div class="meters">
+        <div class="meter-block"><div class="head">👥 1学年の人数 <b>約140名</b></div><div class="meter"><span class="fill" style="--pct:43%"></span></div></div>
+        <div class="meter-block"><div class="head">🔓 自由さ <b>わりと自由</b></div><div class="meter"><span class="fill" style="--pct:90%"></span></div></div>
+      </div>
+      <div class="callout">
+        <p class="callout-label">✨ ここが素敵ポイント</p>
+        <ul>
+          <li>週3回の朝テストと、それぞれに合わせた宿題でつまずきをすぐフォローしてくれる仕組みがあるよ。</li>
+          <li>チューターがいる自習室を7割くらいの生徒が使っていて、家に帰ってからの宿題が少なくて済むかも。</li>
+          <li>最新の校舎は3Dプリンターまである近未来的な建物!地上12階建てだよ。</li>
+          <li class="tidbit">📌 ちなみに:校則は開校したときたった5つしかなくて、必要なルールはみんなで話し合って決めていくスタイルなんだって。2023年に「東京女子学園」という名前から変わって共学になった、できたばかりの新しい学校だよ。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-foot">
+      <a class="chip-link" href="https://www.shiba-kokusai.ed.jp/" target="_blank" rel="noopener">公式サイト ↗</a>
+      <a class="chip-link secondary" href="https://www.shiba-kokusai.ed.jp/news/95/" target="_blank" rel="noopener">制服紹介記事 ↗</a>
+    </div>
+  </section>
+
+  <footer class="endnote">
+    🌟 ここに書いたことはWebで調べた情報だから、年によって変わっていることもあるよ。気になったところは、学校説明会やオープンキャンパスで先生に直接聞いてみてね。自分の目で見て、自分の気持ちで選ぶのがいちばん大事!
+  </footer>
+
+</div>
+</div>
+</body>
+</html>
